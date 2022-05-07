@@ -124,7 +124,7 @@ pub fn main(attr: TokenStream, item: TokenStream) -> TokenStream {
 
             #set_threads
 
-            #crate_root::async_io::block_on(main())
+            async_global_executor::block_on(main())
         }
     };
 
@@ -174,7 +174,7 @@ pub fn test(attr: TokenStream, item: TokenStream) -> TokenStream {
         #[test]
         #(#attrs)*
         fn #name() #ret {
-            #crate_root::async_io::block_on(async { #body })
+            async_global_executor::block_on(async { #body })
         }
     };
 
@@ -227,7 +227,7 @@ pub fn bench(attr: TokenStream, item: TokenStream) -> TokenStream {
         #(#attrs)*
         fn #name(b: &mut ::test::Bencher) #ret {
             let _ = b.iter(|| {
-                #crate_root::async_io::block_on(async {
+                async_global_executor::block_on(async {
                     #body
                 })
             });
